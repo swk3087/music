@@ -11,7 +11,6 @@ import {
   getFolders,
   getSettings,
   getTracks,
-  PlayerSettings,
   RepeatMode,
   ROOT_FOLDER_ID,
   saveFolder,
@@ -61,6 +60,7 @@ function getTrackArtist(name: string): string {
 export function MuserApp() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const settingsSaveTimeoutRef = useRef<ReturnType<typeof window.setTimeout> | null>(null);
   const [ready, setReady] = useState(false);
   const [tracks, setTracks] = useState<TrackView[]>([]);
   const [folders, setFolders] = useState<FolderRecord[]>([]);
@@ -133,16 +133,40 @@ export function MuserApp() {
       return;
     }
 
-    const settings: PlayerSettings = {
+    void saveSettings({
       currentTrackId,
       currentTime,
       currentFolderId,
       repeatMode,
       shuffleEnabled,
-    };
+    });
+  }, [currentFolderId, currentTrackId, ready, repeatMode, shuffleEnabled]);
 
-    void saveSettings(settings);
-  }, [currentFolderId, currentTime, currentTrackId, ready, repeatMode, shuffleEnabled]);
+  useEffect(() => {
+    if (!ready) {
+      return;
+    }
+
+    if (settingsSaveTimeoutRef.current) {
+      window.clearTimeout(settingsSaveTimeoutRef.current);
+    }
+
+    settingsSaveTimeoutRef.current = window.setTimeout(() => {
+      void saveSettings({
+        currentTrackId,
+        currentTime,
+        currentFolderId,
+        repeatMode,
+        shuffleEnabled,
+      });
+    }, isPlaying ? 1500 : 250);
+
+    return () => {
+      if (settingsSaveTimeoutRef.current) {
+        window.clearTimeout(settingsSaveTimeoutRef.current);
+      }
+    };
+  }, [currentFolderId, currentTime, currentTrackId, isPlaying, ready, repeatMode, shuffleEnabled]);
 
   useEffect(() => {
     if (typeof window === 'undefined' || !('serviceWorker' in navigator)) {
@@ -159,17 +183,16 @@ export function MuserApp() {
   }, [tracks]);
 
   useEffect(() => {
-    if (!audioRef.current || !currentTrack) {
+    const audio = audioRef.current;
+
+    if (!audio || !currentTrack) {
       return;
     }
 
-    audioRef.current.src = currentTrack.url;
-    audioRef.current.currentTime = currentTime;
-
-    if (isPlaying) {
-      void audioRef.current.play().catch(() => {
-        setIsPlaying(false);
-      });
+    if (audio.dataset.trackId !== currentTrack.id) {
+      audio.src = currentTrack.url;
+      audio.dataset.trackId = currentTrack.id;
+      audio.currentTime = currentTime;
     }
 
     if ('mediaSession' in navigator) {
@@ -179,7 +202,24 @@ export function MuserApp() {
         album: 'Muser Library',
       });
     }
-  }, [currentTime, currentTrack, isPlaying]);
+  }, [currentTime, currentTrack]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+
+    if (!audio || !currentTrack) {
+      return;
+    }
+
+    if (isPlaying) {
+      void audio.play().catch(() => {
+        setIsPlaying(false);
+      });
+      return;
+    }
+
+    audio.pause();
+  }, [currentTrack, isPlaying]);
 
   useEffect(() => {
     if (!('mediaSession' in navigator)) {
@@ -409,7 +449,7 @@ export function MuserApp() {
         ref={audioRef}
         onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime)}
         onLoadedMetadata={(event) => {
-          if (currentTime > 0) {
+          if (event.currentTarget.dataset.trackId === currentTrackId && currentTime > 0) {
             event.currentTarget.currentTime = currentTime;
           }
         }}
