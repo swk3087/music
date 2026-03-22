@@ -1,0 +1,319 @@
+:root {
+  color-scheme: dark;
+  --bg: #020617;
+  --surface: rgba(15, 23, 42, 0.88);
+  --surface-strong: rgba(30, 41, 59, 0.96);
+  --border: rgba(148, 163, 184, 0.15);
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --accent: #8b5cf6;
+  --accent-strong: #7c3aed;
+  --success: #34d399;
+  --shadow: 0 24px 80px rgba(15, 23, 42, 0.42);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background:
+    radial-gradient(circle at top, rgba(124, 58, 237, 0.18), transparent 30%),
+    linear-gradient(180deg, #020617 0%, #020617 45%, #0f172a 100%);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: 0;
+}
+
+.shell {
+  width: min(1280px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 32px 0 56px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
+}
+
+.hero {
+  padding: 32px;
+  display: grid;
+  gap: 24px;
+  grid-template-columns: 1.6fr 1fr;
+  align-items: end;
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: #c4b5fd;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.hero h1,
+.sectionHeader h2,
+.nowPlaying h3,
+.emptyState h3 {
+  margin: 0;
+}
+
+.hero h1 {
+  font-size: clamp(2.4rem, 6vw, 5rem);
+}
+
+.hero p,
+.featureCard p,
+.emptyState p,
+.trackItem p,
+.nowPlaying p {
+  color: var(--muted);
+}
+
+.heroActions,
+.controlGroup,
+.folderCreateRow,
+.timelineMeta,
+.trackActions,
+.sectionHeader {
+  display: flex;
+  gap: 12px;
+}
+
+.heroActions,
+.controlGroup {
+  flex-wrap: wrap;
+}
+
+.primaryButton,
+.secondaryButton,
+.iconButton,
+.folderCreateRow input,
+.trackActions select {
+  border-radius: 18px;
+  padding: 14px 18px;
+  transition: 180ms ease;
+}
+
+.primaryButton {
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  color: white;
+  font-weight: 700;
+}
+
+.secondaryButton,
+.iconButton,
+.folderCreateRow input,
+.trackActions select {
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  color: var(--text);
+}
+
+.primaryButton:hover,
+.secondaryButton:hover,
+.iconButton:hover,
+.folderItem:hover,
+.trackItem:hover,
+.trackMain:hover {
+  transform: translateY(-1px);
+}
+
+.activeButton {
+  border-color: rgba(139, 92, 246, 0.75);
+  box-shadow: inset 0 0 0 1px rgba(139, 92, 246, 0.45);
+}
+
+.largeButton {
+  min-width: 160px;
+}
+
+.statsGrid,
+.contentGrid,
+.featureGrid {
+  display: grid;
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.statsGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.contentGrid {
+  grid-template-columns: 340px minmax(0, 1fr);
+}
+
+.statCard,
+.sidebar,
+.playerPanel,
+.playlistPanel {
+  padding: 24px;
+}
+
+.statCard span,
+.folderItem span,
+.timelineMeta,
+.trackIndex,
+.trackItem p {
+  color: var(--muted);
+}
+
+.statCard strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 1.3rem;
+}
+
+.sidebar,
+.playerPanel,
+.playlistPanel,
+.trackList,
+.folderList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sectionHeader {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.folderCreateRow input {
+  width: 100%;
+}
+
+.folderItem,
+.trackItem {
+  border-radius: 22px;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  background: rgba(15, 23, 42, 0.75);
+}
+
+.folderItem {
+  padding: 16px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.folderItem.active,
+.trackItem.active {
+  border-color: rgba(139, 92, 246, 0.85);
+  background: rgba(76, 29, 149, 0.28);
+}
+
+.nowPlaying {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 24px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(91, 33, 182, 0.32), rgba(15, 23, 42, 0.6));
+}
+
+.timeline {
+  width: 100%;
+}
+
+.featureGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.featureCard {
+  padding: 18px;
+  border-radius: 22px;
+  background: rgba(15, 23, 42, 0.76);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+}
+
+.trackItem {
+  display: flex;
+  gap: 14px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px;
+}
+
+.trackMain {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: inherit;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+}
+
+.trackIndex {
+  width: 38px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.trackActions {
+  align-items: center;
+}
+
+.emptyState {
+  padding: 48px 20px;
+  text-align: center;
+}
+
+@media (max-width: 1080px) {
+  .hero,
+  .contentGrid,
+  .statsGrid,
+  .featureGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .shell {
+    width: min(100% - 20px, 1280px);
+    padding: 20px 0 36px;
+  }
+
+  .hero,
+  .statCard,
+  .sidebar,
+  .playerPanel,
+  .playlistPanel {
+    padding: 20px;
+  }
+
+  .nowPlaying,
+  .trackItem,
+  .trackActions,
+  .sectionHeader {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .trackActions select,
+  .iconButton,
+  .secondaryButton,
+  .primaryButton {
+    width: 100%;
+  }
+}
