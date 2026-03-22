@@ -1,0 +1,17 @@
+{
+  "name": "Muser",
+  "short_name": "Muser",
+  "description": "Offline-first serverless music player with local browser storage.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
