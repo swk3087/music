@@ -60,7 +60,7 @@ function getTrackArtist(name: string): string {
 export function MuserApp() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const settingsSaveTimeoutRef = useRef<ReturnType<typeof window.setTimeout> | null>(null);
+  const settingsSaveTimeoutRef = useRef<number | null>(null);
   const [ready, setReady] = useState(false);
   const [tracks, setTracks] = useState<TrackView[]>([]);
   const [folders, setFolders] = useState<FolderRecord[]>([]);
